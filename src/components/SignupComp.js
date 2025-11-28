@@ -3,6 +3,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone, Calendar, MapPin } from "lucide-r
 
 export default function SignupComp() {
   const [showPassword, setShowPassword] = useState(false);
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
