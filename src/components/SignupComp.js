@@ -57,15 +57,16 @@ export default function SignupComp() {
               <div className="input-icon">
                 <User className="icon" />
               </div>
-              <input
-                id="firstName"
-                type="text"
-                placeholder="First Name"
-                className="input-field first-name-input-field"
-                onChange={handleChange}
-                value={formData.firstName}
-                // required
-              />
+             <input
+              id="firstName"
+              name="firstName"  // ✅ ADD THIS LINE
+              type="text"
+              placeholder="First Name"
+              className="input-field first-name-input-field"
+              onChange={handleChange}
+              value={formData.firstName}
+              // required
+            />
             </div>
 
             <div className="input-group">
@@ -74,6 +75,7 @@ export default function SignupComp() {
               </div>
               <input
                 id="lastName"
+                name="lastName"   // ✅ ADD THIS LINE
                 type="text"
                 placeholder="Last Name"
                 className="input-field last-name-input-field"
@@ -155,7 +157,7 @@ export default function SignupComp() {
             />
           </div>
 
-          {/* <div className="input-group">
+          <div className="input-group">
             <div className="input-icon">
               <MapPin className="icon map-icon" />
             </div>
@@ -168,9 +170,9 @@ export default function SignupComp() {
               required
               rows="3"
             />
-          </div> */}
+          </div>
 
-          <div className="input-group file-input-container">
+          {/* <div className="input-group file-input-container">
             <div className="input-icon">
               <svg
                 className="icon profile-icon"
@@ -211,9 +213,9 @@ export default function SignupComp() {
                 }
               }}
             />
-          </div>
+          </div> */}
 
-          {formData.profilePicture && (
+          {/* {formData.profilePicture && (
             <div className="image-preview">
               <img
                 src={URL.createObjectURL(formData.profilePicture)}
@@ -230,7 +232,7 @@ export default function SignupComp() {
                 Change Photo
               </button>
             </div>
-          )}
+          )} */}
 
           <div className="form-options">
             <div className="remember-option">
