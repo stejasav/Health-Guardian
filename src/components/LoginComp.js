@@ -110,7 +110,7 @@ export default function LoginComp() {
           </div>
 
           <button type="submit" className="login-button">
-            Sign In
+            Log In
           </button>
 
           {/* <div className="divider">
