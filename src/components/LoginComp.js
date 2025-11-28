@@ -3,6 +3,57 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
 export default function LoginComp() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    emailId: "",
+    password: "",
+  });
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // stop page refresh
+
+    const payload = {
+      emailId: formData.emailId,
+      password: formData.password,
+    };
+
+    console.log("Sending login payload:", payload);
+
+    try {
+      const response = await fetch("http://localhost:2804/user/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Login failed:", text);
+        alert("Login failed. Please check your email and password.");
+        return;
+      }
+
+      // If backend returns some data:
+      // const data = await response.json();
+      // console.log("Login success:", data);
+
+      alert("Login successful!");
+    } catch (err) {
+      console.error("Error during login:", err);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
+
 
   return (
     <div className="login-page">
@@ -13,20 +64,37 @@ export default function LoginComp() {
           <p className="login-subtitle"> We've missed you! Enter your details to continue </p>
         </div>
 
-        <form className="login-form">
+          <form className="login-form" onSubmit={handleSubmit}>
 
           <div className="input-group">
             <div className="input-icon">
               <Mail className="icon" />
             </div>
-            <input type="email" placeholder="Email Address" className="input-field if" required />
+            <input
+              name="emailId"                           // 👈 matches backend key
+              type="email"
+              placeholder="Email Address"
+              className="input-field if"
+              value={formData.emailId}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div className="input-group">
             <div className="input-icon">
               <Lock className="icon" />
             </div>
-            <input id="password" type={showPassword ? "text" : "password"} placeholder="Password" className="input-field if" required />
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="input-field if"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
             <div className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
                 <EyeOff className="icon" /> ) : ( <Eye className="icon" /> )}
@@ -41,7 +109,9 @@ export default function LoginComp() {
             <a href="/forgot-pass" className="forgot-link"> Forgot password? </a>
           </div>
 
-          <button className="login-button">Sign In</button>
+          <button type="submit" className="login-button">
+            Sign In
+          </button>
 
           {/* <div className="divider">
             <span className="divider-text">Or continue with</span>

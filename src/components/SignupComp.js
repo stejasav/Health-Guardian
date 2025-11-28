@@ -28,18 +28,78 @@ export default function SignupComp() {
     }));
   }, []);
 
+  // const handleSubmit = useCallback(
+  //   async (e) => {
+  //     e.preventDefault();
+  //     if (!formData.terms) {
+  //       alert("Please agree to the terms and conditions.");
+  //       return;
+  //     }
+  //     // Handle form submission
+  //     console.log("Form submitted", formData);
+  //   },
+  //   [formData]
+  // );
   const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      if (!formData.terms) {
-        alert("Please agree to the terms and conditions.");
-        return;
+  async (e) => {
+    e.preventDefault();
+
+    // 1️⃣ validate terms checkbox
+    if (!formData.terms) {
+      alert("Please agree to the terms and conditions.");
+      return;
+    }
+
+    // 2️⃣ Convert DOB from "YYYY-MM-DD" (HTML date input) to "DD/MM/YYYY" (what your API example shows)
+    let dobForApi = formData.dob; // default
+    if (formData.dob) {
+      const [year, month, day] = formData.dob.split("-"); // "2004-05-24" → ["2004","05","24"]
+      dobForApi = `${day}/${month}/${year}`;              // → "24/05/2004"
+    }
+
+    // 3️⃣ Build payload exactly like your curl example
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      emailId: formData.email,      // 👈 backend expects "emailId", your input is "email"
+      phoneNo: formData.phoneNo,
+      password: formData.password,
+      address: formData.address,
+      dob: dobForApi,
+    };
+
+    console.log("Sending payload to backend:", payload);
+
+    try {
+      // 4️⃣ Call your Spring Boot API
+      const response = await fetch("http://localhost:2804/user/register", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Backend error:", text);
+        throw new Error(text || "Registration failed");
       }
-      // Handle form submission
-      console.log("Form submitted", formData);
-    },
-    [formData]
-  );
+
+      // 5️⃣ Optional: if backend returns JSON, you can read it:
+      // const data = await response.json();
+      // console.log("Backend response:", data);
+
+      alert("Registration successful! Please check your email.");
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("Something went wrong during registration. Please try again.");
+    }
+  },
+  [formData]
+);
+
 
   return (
     <div className="login-page">
@@ -254,7 +314,10 @@ export default function SignupComp() {
             </div>
           </div>
 
-          <button className="login-button signup-button">Create Account</button>
+          {/* <button className="login-button signup-button">Create Account</button> */}
+              <button type="submit" className="login-button signup-button">
+                Create Account
+              </button>
 
           <p className="signup-text">
             Already have an account?
