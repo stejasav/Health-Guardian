@@ -107,7 +107,10 @@ export default function AboutUsComp() {
             <div className="features-grid">
               <div className="feature-card">
                 <div className="feature-icon">
-                  <i className="fas fa-stethoscope" style={{ color: "#4ade80" }}></i>
+                  <i
+                    className="fas fa-stethoscope"
+                    style={{ color: "#4ade80" }}
+                  ></i>
                 </div>
                 <div className="feature-title">Disease Prediction</div>
                 <p>
@@ -117,7 +120,10 @@ export default function AboutUsComp() {
               </div>
               <div className="feature-card">
                 <div className="feature-icon">
-                  <i className="fas fa-dollar-sign" style={{ color: "#4ade80" }}></i>
+                  <i
+                    className="fas fa-dollar-sign"
+                    style={{ color: "#4ade80" }}
+                  ></i>
                 </div>
                 <div className="feature-title">Cost Estimation</div>
                 <p>
@@ -137,7 +143,10 @@ export default function AboutUsComp() {
               </div>
               <div className="feature-card">
                 <div className="feature-icon">
-                  <i className="fas fa-user-md" style={{ color: "#4ade80" }}></i>
+                  <i
+                    className="fas fa-user-md"
+                    style={{ color: "#4ade80" }}
+                  ></i>
                 </div>
                 <div className="feature-title">Doctor Consultation</div>
                 <p>
@@ -147,7 +156,10 @@ export default function AboutUsComp() {
               </div>
               <div className="feature-card">
                 <div className="feature-icon">
-                  <i className="fas fa-hospital" style={{ color: "#4ade80" }}></i>
+                  <i
+                    className="fas fa-hospital"
+                    style={{ color: "#4ade80" }}
+                  ></i>
                 </div>
                 <div className="feature-title">Hospital Recommendation</div>
                 <p>
@@ -178,11 +190,11 @@ export default function AboutUsComp() {
               passionate about improving healthcare outcomes.
             </p>
             <div className="team-grid">
-              <div className="team-member">
+              {/* <div className="team-member">
                 <img src="./img/my-pic.png" alt="Team Member" />
                 <h3>Tejasav Singh</h3>
                 <p>Front-end Developer</p>
-              </div>
+              </div> */}
               <div className="team-member">
                 <img src="./img/rav-pic.jpeg" alt="Team Member" />
                 <h3>Ravneet Kaur</h3>
@@ -191,7 +203,17 @@ export default function AboutUsComp() {
               <div className="team-member">
                 <img src="./img/tav-pic.png" alt="Team Member" />
                 <h3>Tavneet Kaur</h3>
-                <p>Back-end Developer</p>
+                <p>UI/UX Developer</p>
+              </div>
+              <div className="team-member">
+                <img src="./img/suchet.jpeg" alt="Team Member" />
+                <h3>Suchet Singh</h3>
+                <p>Front-end Developer</p>
+              </div>
+              <div className="team-member">
+                <img src="./img/sehaj.jpeg" alt="Team Member" />
+                <h3>Sehajpreet Singh</h3>
+                <p>Testing Engineer</p>
               </div>
             </div>
           </div>
