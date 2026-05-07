@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [trail, setTrail] = useState({ x: 0, y: 0 });
   const [isClicking, setIsClicking] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isHoveringText, setIsHoveringText] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
   const cursorRef = useRef(null);
 
-  const textElements = useMemo(() => [
-    "P", "SPAN", "H1", "H2", "H3", "H4", "H5", "H6", "LI", 
-    "TD", "TH", "EM", "STRONG", "LABEL", "A", "BUTTON", "IMG", "iframe"
+  const interactiveElements = useMemo(() => [
+    "A", "BUTTON", "INPUT", "TEXTAREA", "LABEL"
   ], []);
 
+  // 🎯 Mouse move
   useEffect(() => {
     document.body.style.cursor = "none";
 
@@ -19,66 +21,92 @@ export default function CustomCursor() {
       setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
 
-      const element = document.elementFromPoint(e.clientX, e.clientY);
-      if (element && textElements.includes(element.tagName)) {
-        setIsHoveringText(true);
-
-        // Apply color change to text under cursor
-        // if (element.style) {
-        //   element.style.transition = "color 0.3s ease";
-
-        //   // Add event listener to restore color when cursor leaves
-        //   const restoreColor = () => {
-        //     element.removeEventListener("mouseleave", restoreColor);
-        //   };
-
-        //   element.addEventListener("mouseleave", restoreColor);
-        // }
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (el && interactiveElements.includes(el.tagName)) {
+        setIsHovering(true);
       } else {
-        setIsHoveringText(false);
+        setIsHovering(false);
       }
     };
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
       document.body.style.cursor = "auto";
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [textElements]);
+  }, [interactiveElements]);
 
-  const cursorStyle = {
+  // 🌊 Smooth trailing effect
+  useEffect(() => {
+    const follow = () => {
+      setTrail((prev) => ({
+        x: prev.x + (position.x - prev.x) * 0.15,
+        y: prev.y + (position.y - prev.y) * 0.15,
+      }));
+    };
+
+    const id = setInterval(follow, 16);
+    return () => clearInterval(id);
+  }, [position]);
+
+  // 🎨 MAIN CURSOR STYLE
+  const mainCursor = {
     position: "fixed",
     left: 0,
     top: 0,
-    transform: isClicking
-      ? `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(0.8)`
-      : `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(1)`,
-    width: isHoveringText ? "70px" : "25px",
-    height: isHoveringText ? "70px" : "25px",
-    backgroundColor: "#00e5ff",
+    transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(${isClicking ? 0.85 : 1})`,
+    width: isHovering ? "60px" : "20px",
+    height: isHovering ? "60px" : "20px",
     borderRadius: "50%",
     pointerEvents: "none",
     zIndex: 9999,
-    opacity: isVisible ? (isHoveringText ? 0.8 : 1) : 0,
-    transition: "width 0.2s ease, height 0.2s ease, transform 0.05s linear",
-    mixBlendMode: "difference",
-    boxShadow: isClicking ? "0 0 15px #00e5ff" : "0 0 10px #00e5ff",
-    filter: isHoveringText ? "brightness(1.5)" : "none",
+    opacity: isVisible ? 1 : 0,
+
+    background: isHovering
+      ? "radial-gradient(circle, rgba(74,222,128,0.25), rgba(29,158,117,0.1))"
+      : "linear-gradient(135deg, #4ade80, #1d9e75)",
+
+    boxShadow: isHovering
+      ? "0 0 40px rgba(74,222,128,0.5)"
+      : "0 0 12px rgba(29,158,117,0.6)",
+
+    backdropFilter: "blur(6px)",
+    transition:
+      "width 0.2s ease, height 0.2s ease, transform 0.08s ease-out",
   };
 
-  return <div ref={cursorRef} style={cursorStyle}></div>;
+  // 🌿 TRAIL CURSOR (soft glow follower)
+  const trailCursor = {
+    position: "fixed",
+    left: 0,
+    top: 0,
+    transform: `translate(${trail.x}px, ${trail.y}px) translate(-50%, -50%)`,
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    pointerEvents: "none",
+    zIndex: 9998,
+    opacity: isVisible ? 0.25 : 0,
+
+    background:
+      "radial-gradient(circle, rgba(29,158,117,0.3), transparent 70%)",
+
+    filter: "blur(20px)",
+    transition: "opacity 0.3s ease",
+  };
+
+  return (
+    <>
+      <div style={trailCursor} />
+      <div ref={cursorRef} style={mainCursor} />
+    </>
+  );
 }

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import LoginComp from "../components/LoginComp";
-import Navbar from "../components/Navbar";
 
 export default function Login() {
   
@@ -10,7 +9,6 @@ export default function Login() {
 
   return (
     <div className="page">
-      <Navbar />
       <LoginComp />
     </div>
   );

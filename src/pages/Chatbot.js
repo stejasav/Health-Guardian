@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import ChatbotComp from "../components/ChatbotComp";
 
 export default function Chatbot() {
@@ -9,7 +8,6 @@ export default function Chatbot() {
 
   return (
     <div className="page">
-      <Navbar />
       <ChatbotComp />
     </div>
   );

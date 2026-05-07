@@ -13,7 +13,7 @@ const TermOfService = lazy(() => import("./pages/TermOfService"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
-const Chatbot = lazy(() => import("./pages/Chatbot")); // Lazy load Chatbot too
+const Chatbot = lazy(() => import("./pages/Chatbot"));
 
 export default function App() {
   return (

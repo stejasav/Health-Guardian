@@ -1,13 +1,6 @@
 body {
   font-family: "Poppins", "Roboto", "Winky Sans", Arial, sans-serif;
-  background: radial-gradient(
-      circle at top left,
-      rgba(30, 64, 157, 0.85),
-      rgba(48, 89, 191, 0.921) 50%,
-      rgba(41, 78, 185, 0.8) 80%
-    ),
-    linear-gradient(135deg, rgb(10, 25, 77), rgb(25, 55, 150));
-  background-blend-mode: soft-light;
+  background: #020d0a;
   min-height: 100vh;
   width: 100vw;
   color: white;

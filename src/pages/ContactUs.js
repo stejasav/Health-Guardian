@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import ContactUsComp from "../components/ContactUsComp";
 
 export default function ContactUs() {
@@ -10,7 +9,6 @@ export default function ContactUs() {
 
   return (
     <div className="page">
-      <Navbar />
       <ContactUsComp />
     </div>
   );

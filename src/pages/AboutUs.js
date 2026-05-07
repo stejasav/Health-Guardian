@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import AboutUsComp from "../components/AboutUsComp";
 
 export default function AboutUs() {
@@ -10,7 +9,6 @@ export default function AboutUs() {
 
   return (
     <div className="page">
-      <Navbar />
       <AboutUsComp />
     </div>
   );
